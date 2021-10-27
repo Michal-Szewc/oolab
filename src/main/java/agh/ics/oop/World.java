@@ -31,7 +31,7 @@ public class World {
     }
     public static void main(String[] args) {
         out.println("start");
-        String commands[] = {"f","f","l","r","b","x","f","l","l"};
+        String commands[] = {"f","f","l","r"};
         run(trans(commands));
         out.println("stop");
     }
