@@ -30,9 +30,16 @@ public class World {
 
     }
     public static void main(String[] args) {
-        out.println("start");
+        /*out.println("start");
         String commands[] = {"f","f","l","r"};
         run(trans(commands));
-        out.println("stop");
+        out.println("stop");*/
+        /*Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));*/
+        out.println(new Vector2d(2,-576).upperRight(new Vector2d(-234,4)));
+        out.println(new Vector2d(2,0).upperRight(new Vector2d(-234,-4)));
     }
 }
