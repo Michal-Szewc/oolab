@@ -15,11 +15,6 @@ public class Animal {
         return direction;
     }
 
-    public Animal(){
-        position = new Vector2d(2,2);
-        direction = MapDirection.NORTH;
-    }
-
     public Animal(IWorldMap map){
         position = new Vector2d(2,2);
         direction = MapDirection.NORTH;

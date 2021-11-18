@@ -12,7 +12,6 @@ public class SimulationEngine implements IEngine{
         for(Vector2d position: positions){
             this.map.place(new Animal(this.map,position));
         }
-        System.out.println(this.map);
     }
 
     @Override
@@ -25,7 +24,6 @@ public class SimulationEngine implements IEngine{
                 positions[i] = animal.getPosition();
             }
             i = (i + 1) % positions.length;
-            System.out.println(this.map.toString());
         }
     }
 }
