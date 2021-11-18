@@ -1,8 +1,11 @@
 package agh.ics.oop;
 
+import java.util.Map;
+
 public class Animal {
     private Vector2d position;
     private MapDirection direction;
+    private IWorldMap map;
 
     public Vector2d getPosition() {
         return position;
@@ -17,8 +20,20 @@ public class Animal {
         direction = MapDirection.NORTH;
     }
 
+    public Animal(IWorldMap map){
+        position = new Vector2d(2,2);
+        direction = MapDirection.NORTH;
+        this.map = map;
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        position = initialPosition;
+        direction = MapDirection.NORTH;
+        this.map = map;
+    }
+
     public String toString(){
-        return "pozycjia: " + position + ", kierunek: " + direction;
+        return direction.toString();
     }
 
     public boolean isAt(Vector2d position){return this.position.equals(position);}
@@ -32,13 +47,13 @@ public class Animal {
                 this.direction = this.direction.next();
                 break;
             case FORWARD:
-                if (this.position.add(this.direction.toUnitVector()).proceeds(new Vector2d(4, 4)) && this.position.add(this.direction.toUnitVector()).follows(new Vector2d(0, 0))) {
-                    this.position = this.position.add(this.direction.toUnitVector());
+                if(map.canMoveTo(map.fit(this.position.add(this.direction.toUnitVector())))){
+                    this.position = map.fit(this.position.add(this.direction.toUnitVector()));
                 }
                 break;
             case BACKWARD:
-                if (this.position.add(this.direction.toUnitVector().opposite()).proceeds(new Vector2d(4,4)) && this.position.add(this.direction.toUnitVector().opposite()).follows(new Vector2d(0,0))){
-                    this.position = this.position.add(this.direction.toUnitVector().opposite());
+                if(map.canMoveTo(map.fit(this.position.add(this.direction.toUnitVector().opposite())))){
+                    this.position = map.fit(this.position.add(this.direction.toUnitVector().opposite()));
                 }
                 break;
         }
