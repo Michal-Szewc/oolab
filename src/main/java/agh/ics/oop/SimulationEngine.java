@@ -16,7 +16,7 @@ public class SimulationEngine implements IEngine{
 
     @Override
     public void run() {
-        Integer i = 0;
+        int i = 0;
         for(MoveDirection command: commands){
             if(this.map.objectAt(positions[i]) instanceof Animal){
                 Animal animal = (Animal)(this.map.objectAt(positions[i]));
@@ -24,6 +24,7 @@ public class SimulationEngine implements IEngine{
                 positions[i] = animal.getPosition();
             }
             i = (i + 1) % positions.length;
+            System.out.println(this.map);
         }
     }
 }

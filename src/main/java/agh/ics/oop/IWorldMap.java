@@ -55,4 +55,12 @@ public interface IWorldMap {
      */
 
     Vector2d fit(Vector2d position);
+
+    /**
+     * Return random position inside map, that isn't occupied
+     *
+     * @return not occupied position
+     */
+
+    Vector2d emptyPosition();
 }

@@ -1,15 +1,8 @@
 package agh.ics.oop;
 
-import java.util.Map;
-
-public class Animal {
-    private Vector2d position;
+public class Animal extends AbstractWorldMapElement{
     private MapDirection direction;
-    private IWorldMap map;
-
-    public Vector2d getPosition() {
-        return position;
-    }
+    private final IWorldMap map;
 
     public MapDirection getDirection() {
         return direction;
@@ -31,9 +24,8 @@ public class Animal {
         return direction.toString();
     }
 
-    public boolean isAt(Vector2d position){return this.position.equals(position);}
-
     public void move(MoveDirection direction){
+        Vector2d newPosition = position;
         switch (direction) {
             case LEFT:
                 this.direction = this.direction.previous();
@@ -43,14 +35,21 @@ public class Animal {
                 break;
             case FORWARD:
                 if(map.canMoveTo(map.fit(this.position.add(this.direction.toUnitVector())))){
-                    this.position = map.fit(this.position.add(this.direction.toUnitVector()));
+                    newPosition = map.fit(this.position.add(this.direction.toUnitVector()));
                 }
                 break;
             case BACKWARD:
                 if(map.canMoveTo(map.fit(this.position.add(this.direction.toUnitVector().opposite())))){
-                    this.position = map.fit(this.position.add(this.direction.toUnitVector().opposite()));
+                    newPosition = map.fit(this.position.add(this.direction.toUnitVector().opposite()));
                 }
                 break;
         }
+
+        // Checks if there is grass to eat
+
+        if(this.map.objectAt(newPosition) instanceof Grass){
+            ((Grass) this.map.objectAt(newPosition)).setPosition(this.map.emptyPosition());
+        }
+        this.position = newPosition;
     }
 }
