@@ -1,11 +1,9 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-abstract public class AbstractWorldMap implements IWorldMap{
-    List<IMapElement> elements = new ArrayList<>();
+abstract public class AbstractWorldMap implements IWorldMap, IPositionObserver{
+    Map<Vector2d, IMapElement> elements = new HashMap<>();
 
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -15,7 +13,8 @@ abstract public class AbstractWorldMap implements IWorldMap{
     @Override
     public boolean place(Animal animal) {
         if(canMoveTo(animal.getPosition())){
-            elements.add(animal);
+            elements.put(animal.getPosition(),animal);
+            animal.addObserver(this);
             return true;
         }
         return false;
@@ -23,11 +22,7 @@ abstract public class AbstractWorldMap implements IWorldMap{
 
     @Override
     public Object objectAt(Vector2d position) {
-        for(IMapElement element: elements){
-            if(element.isAt(position))
-                return element;
-        }
-        return null;
+        return elements.get(position);
     }
 
     @Override
@@ -39,15 +34,15 @@ abstract public class AbstractWorldMap implements IWorldMap{
         Vector2d lowerLeft = new Vector2d(0,0);
         Vector2d upperRight = new Vector2d(0,0);
         boolean first = true;
-        for(IMapElement element: elements){
+        for(Vector2d position: elements.keySet()){
             if(first){
-                lowerLeft = element.getPosition();
-                upperRight = element.getPosition();
+                lowerLeft = position;
+                upperRight = position;
                 first = false;
             }
             else{
-                lowerLeft = lowerLeft.lowerLeft(element.getPosition());
-                upperRight = upperRight.upperRight(element.getPosition());
+                lowerLeft = lowerLeft.lowerLeft(position);
+                upperRight = upperRight.upperRight(position);
             }
         }
         return new MapVisualizer(this).draw(lowerLeft,upperRight);
@@ -61,5 +56,11 @@ abstract public class AbstractWorldMap implements IWorldMap{
             position = new Vector2d(rd.nextInt(),rd.nextInt());
         }
         return position;
+    }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        elements.put(newPosition,elements.get(oldPosition));
+        elements.remove(oldPosition);
     }
 }

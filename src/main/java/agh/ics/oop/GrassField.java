@@ -8,7 +8,8 @@ public class GrassField extends AbstractWorldMap{
     GrassField(int n){
         this.n = n;
         for(int i = 0; i < n; i ++){
-            elements.add(new Grass(emptyPosition()));
+            Vector2d pos = emptyPosition();
+            elements.put(pos,new Grass(pos));
         }
     }
 
@@ -18,7 +19,8 @@ public class GrassField extends AbstractWorldMap{
             if(objectAt(animal.getPosition()) instanceof Grass){
                 ((Grass) objectAt(animal.getPosition())).setPosition(emptyPosition());
             }
-            elements.add(animal);
+            elements.put(animal.getPosition(),animal);
+            animal.addObserver(this);
             return true;
         }
         return false;

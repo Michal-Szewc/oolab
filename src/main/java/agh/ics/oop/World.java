@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+
+//f b r l f f r r f f f f f f f f
 public class World {
     public static void main(String[] args) {
         MoveDirection[] directions = new OptionsParser().parse(args);
