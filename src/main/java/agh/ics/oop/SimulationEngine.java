@@ -5,13 +5,14 @@ public class SimulationEngine implements IEngine{
     private IWorldMap map;
     private Vector2d[] positions;
 
-    SimulationEngine(MoveDirection[] commands, IWorldMap map, Vector2d[] positions){
+    public SimulationEngine(MoveDirection[] commands, IWorldMap map, Vector2d[] positions){
         this.commands = commands;
         this.map = map;
         this.positions = positions;
-        for(Vector2d position: positions){
-            this.map.place(new Animal(this.map,position));
+        for (Vector2d position : positions) {
+            this.map.place(new Animal(this.map, position));
         }
+        System.out.println(this.map);
     }
 
     @Override

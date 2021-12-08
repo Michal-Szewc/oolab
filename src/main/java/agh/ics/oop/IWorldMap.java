@@ -63,4 +63,8 @@ public interface IWorldMap {
      */
 
     Vector2d emptyPosition();
+
+    Vector2d lowerLeft();
+
+    Vector2d upperRight();
 }

@@ -30,4 +30,28 @@ class GrassFieldTest {
         assertTrue(map.isOccupied(new Vector2d(4,3)));
         assertFalse(map.objectAt(new Vector2d(4,4)) instanceof Animal);
     }
+
+    @Test
+    void placeTest(){
+        String [] commands = {"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
+        MoveDirection[] directions = new OptionsParser().parse(commands);
+        IWorldMap map = new GrassField(10);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,2), new Vector2d(2,3),new Vector2d(3,3) };
+        assertDoesNotThrow(() ->{
+            IEngine engine = new SimulationEngine(directions, map, positions);
+            engine.run();
+        });
+    }
+
+    @Test
+    void placeTest2(){
+        String [] commands = {"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
+        MoveDirection[] directions = new OptionsParser().parse(commands);
+        IWorldMap map = new GrassField(10);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,2), new Vector2d(2,3),new Vector2d(3,2) };
+        assertThrows(IllegalArgumentException.class,() ->{
+            IEngine engine = new SimulationEngine(directions, map, positions);
+            engine.run();
+        });
+    }
 }

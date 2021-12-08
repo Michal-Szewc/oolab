@@ -5,11 +5,15 @@ import java.util.Random;
 public class GrassField extends AbstractWorldMap{
     private int n;
 
-    GrassField(int n){
+    public GrassField(int n){
         this.n = n;
         for(int i = 0; i < n; i ++){
             Vector2d pos = emptyPosition();
-            elements.put(pos,new Grass(pos));
+            Grass grass = new Grass (pos);
+            elements.put(pos,grass);
+            grass.addObserver(this);
+            grass.addObserver(boundary);
+            boundary.add(grass);
         }
     }
 
@@ -21,9 +25,11 @@ public class GrassField extends AbstractWorldMap{
             }
             elements.put(animal.getPosition(),animal);
             animal.addObserver(this);
+            animal.addObserver(boundary);
+            boundary.add(animal);
             return true;
         }
-        return false;
+        throw new IllegalArgumentException("Animal can't be placed at " + animal.getPosition());
     }
 
     @Override

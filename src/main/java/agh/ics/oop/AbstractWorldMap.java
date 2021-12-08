@@ -4,6 +4,7 @@ import java.util.*;
 
 abstract public class AbstractWorldMap implements IWorldMap, IPositionObserver{
     Map<Vector2d, IMapElement> elements = new HashMap<>();
+    MapBoundary boundary = new MapBoundary();
 
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -15,9 +16,11 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionObserver{
         if(canMoveTo(animal.getPosition())){
             elements.put(animal.getPosition(),animal);
             animal.addObserver(this);
+            animal.addObserver(boundary);
+            boundary.add(animal);
             return true;
         }
-        return false;
+        throw new IllegalArgumentException("Animal can't be placed at " + animal.getPosition());
     }
 
     @Override
@@ -31,21 +34,7 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionObserver{
     }
 
     public String toString() {
-        Vector2d lowerLeft = new Vector2d(0,0);
-        Vector2d upperRight = new Vector2d(0,0);
-        boolean first = true;
-        for(Vector2d position: elements.keySet()){
-            if(first){
-                lowerLeft = position;
-                upperRight = position;
-                first = false;
-            }
-            else{
-                lowerLeft = lowerLeft.lowerLeft(position);
-                upperRight = upperRight.upperRight(position);
-            }
-        }
-        return new MapVisualizer(this).draw(lowerLeft,upperRight);
+        return new MapVisualizer(this).draw(boundary.getLowerLeft(),boundary.getUpperRight());
     }
 
     @Override
@@ -62,5 +51,13 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionObserver{
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         elements.put(newPosition,elements.get(oldPosition));
         elements.remove(oldPosition);
+    }
+
+    public Vector2d upperRight(){
+        return boundary.getUpperRight();
+    }
+
+    public Vector2d lowerLeft(){
+        return boundary.getLowerLeft();
     }
 }

@@ -1,6 +1,7 @@
 plugins {
     id 'application'
     id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
 group 'org.example'
@@ -10,9 +11,14 @@ repositories {
     mavenCentral()
 }
 
+javafx {
+    version = "17"
+    modules = [ 'javafx.controls' ]
+}
+
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
 test {
@@ -20,5 +26,6 @@ test {
 }
 
 application {
-    mainClassName = 'agh.ics.oop.World'
+    //Your JavaFX application class
+    mainClass.set('App')
 }
